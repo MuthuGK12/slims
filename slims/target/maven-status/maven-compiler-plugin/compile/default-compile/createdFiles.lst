@@ -1,0 +1,6 @@
+com/muthu/slims/enums/Role.class
+com/pro/slims/SlimsApplication.class
+com/muthu/slims/DataLoader.class
+com/muthu/slims/entity/User$UserBuilder.class
+com/muthu/slims/entity/User.class
+com/muthu/slims/repository/UserRepository.class

@@ -1,0 +1,5 @@
+/workspaces/slims/slims/src/main/java/com/pro/slims/SlimsApplication.java
+/workspaces/slims/slims/src/main/java/com/pro/slims/dto/DataLoader.java
+/workspaces/slims/slims/src/main/java/com/pro/slims/entity/User.java
+/workspaces/slims/slims/src/main/java/com/pro/slims/enums/Role.java
+/workspaces/slims/slims/src/main/java/com/pro/slims/repository/UserRepository.java
