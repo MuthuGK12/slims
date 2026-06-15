@@ -1,4 +1,4 @@
-package com.muthu.slims.enums;
+package com.pro.slims.enums;
 
 public enum Role {
     ADMIN,

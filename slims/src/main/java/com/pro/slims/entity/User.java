@@ -1,6 +1,6 @@
-package com.muthu.slims.entity;
+package com.pro.slims.entity;
 
-import com.muthu.slims.enums.Role;
+import com.pro.slims.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 

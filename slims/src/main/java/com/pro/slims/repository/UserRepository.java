@@ -1,6 +1,6 @@
-package com.muthu.slims.repository;
+package com.pro.slims.repository;
 
-import com.muthu.slims.entity.User;
+import com.pro.slims.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
