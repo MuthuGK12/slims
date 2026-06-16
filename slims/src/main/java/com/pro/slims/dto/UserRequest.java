@@ -1,11 +1,10 @@
 package com.pro.slims.dto;
 
 import com.pro.slims.enums.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @Getter
 @Setter
@@ -14,15 +13,21 @@ import lombok.Setter;
 @Builder
 public class UserRequest {
 
+    @NotBlank(message = "Employee Code is required")
     private String employeeCode;
 
+    @NotBlank(message = "First Name is required")
     private String firstName;
 
     private String lastName;
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
 
+    @NotBlank(message = "Password is required")
     private String password;
 
+    @NotNull(message = "Role is required")
     private Role role;
 }
