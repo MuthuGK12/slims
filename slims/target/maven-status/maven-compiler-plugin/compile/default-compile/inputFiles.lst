@@ -6,6 +6,10 @@
 /workspaces/slims/slims/src/main/java/com/pro/slims/dto/UserResponse.java
 /workspaces/slims/slims/src/main/java/com/pro/slims/entity/User.java
 /workspaces/slims/slims/src/main/java/com/pro/slims/enums/Role.java
+/workspaces/slims/slims/src/main/java/com/pro/slims/exception/DuplicateResourceException.java
+/workspaces/slims/slims/src/main/java/com/pro/slims/exception/GlobalExceptionHandler.java
+/workspaces/slims/slims/src/main/java/com/pro/slims/exception/ResourceNotFoundException.java
 /workspaces/slims/slims/src/main/java/com/pro/slims/repository/UserRepository.java
+/workspaces/slims/slims/src/main/java/com/pro/slims/security/SecurityConfig.java
 /workspaces/slims/slims/src/main/java/com/pro/slims/service/UserService.java
 /workspaces/slims/slims/src/main/java/com/pro/slims/service/impl/UserServiceImpl.java
