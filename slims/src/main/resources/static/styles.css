@@ -1,0 +1,33 @@
+body{
+    background:#f4f6f9;
+}
+
+.header-section{
+    margin-bottom:20px;
+}
+
+.header-section h2{
+    font-weight:bold;
+}
+
+.card{
+    border:none;
+    border-radius:12px;
+}
+
+.card-header{
+    font-weight:600;
+}
+
+table{
+    text-align:center;
+    vertical-align:middle;
+}
+
+.btn{
+    margin-right:4px;
+}
+
+#message{
+    margin-bottom:15px;
+}
