@@ -1,6 +1,13 @@
-import org.springframework.data.jpa.repository.Query;
+package com.pro.slims.repository;
 
-public interface SampleRegistrationRepository extends JpaRepository<SampleRegistration, Long> {
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.pro.slims.entity.SampleRegistration;
+
+public interface SampleRegistrationRepository
+        extends JpaRepository<SampleRegistration, Long> {
 
     Optional<SampleRegistration> findBySampleNo(String sampleNo);
 

@@ -1,5 +1,12 @@
 package com.pro.slims.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.pro.slims.dto.SampleRegistrationDTO;
 import com.pro.slims.entity.Customer;
 import com.pro.slims.entity.SampleRegistration;
@@ -14,72 +21,65 @@ import com.pro.slims.util.NumberGeneratorUtil;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class SampleRegistrationServiceImpl implements SampleRegistrationService {
 
     private final SampleRegistrationRepository sampleRepository;
-
     private final CustomerRepository customerRepository;
-
     private final SampleStatusHistoryRepository historyRepository;
 
-    @Transactional
     @Override
+    @Transactional
     public SampleRegistrationDTO createSample(SampleRegistrationDTO dto) {
 
-        Customer customer =
-                customerRepository.findById(dto.getCustomerId())
-                        .orElseThrow(() ->
-                                new ResourceNotFoundException(
-                                        "Customer not found"));
+        Customer customer = customerRepository.findById(dto.getCustomerId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Customer not found"));
 
-        SampleRegistration sample =
-                SampleRegistration.builder()
-                        .customer(customer)
-                        .sampleName(dto.getSampleName())
-                        .sampleDescription(dto.getSampleDescription())
-                        .sampleType(dto.getSampleType())
-                        .sampleCategory(dto.getSampleCategory())
-                        .samplingPoint(dto.getSamplingPoint())
-                        .batchNo(dto.getBatchNo())
-                        .lotNo(dto.getLotNo())
-                        .receivedDate(dto.getReceivedDate())
-                        .receivedBy(dto.getReceivedBy())
-                        .collectedDate(dto.getCollectedDate())
-                        .collectedBy(dto.getCollectedBy())
-                        .quantity(dto.getQuantity())
-                        .quantityUnit(dto.getQuantityUnit())
-                        .conditionOnReceipt(dto.getConditionOnReceipt())
-                        .priority(dto.getPriority())
-                        .remarks(dto.getRemarks())
-                        .createdBy(dto.getCreatedBy())
-                        .createdDate(LocalDateTime.now())
-                        .status(SampleStatus.REGISTERED)
-                        .build();
+        SampleRegistration sample = SampleRegistration.builder()
+                .customer(customer)
+                .sampleName(dto.getSampleName())
+                .sampleDescription(dto.getSampleDescription())
+                .sampleType(dto.getSampleType())
+                .sampleCategory(dto.getSampleCategory())
+                .samplingPoint(dto.getSamplingPoint())
+                .batchNo(dto.getBatchNo())
+                .lotNo(dto.getLotNo())
+                .receivedDate(dto.getReceivedDate())
+                .receivedBy(dto.getReceivedBy())
+                .collectedDate(dto.getCollectedDate())
+                .collectedBy(dto.getCollectedBy())
+                .quantity(dto.getQuantity())
+                .quantityUnit(dto.getQuantityUnit())
+                .conditionOnReceipt(dto.getConditionOnReceipt())
+                .priority(dto.getPriority())
+                .status(SampleStatus.REGISTERED)
+                .remarks(dto.getRemarks())
+                .createdBy(dto.getCreatedBy())
+                .createdDate(LocalDateTime.now())
+                .build();
 
         sample = sampleRepository.save(sample);
 
-        sample.setSampleNo(NumberGeneratorUtil.generateSampleNumber(sample.getSampleId()));
+        sample.setSampleNo(
+                NumberGeneratorUtil.generateSampleNumber(
+                        sample.getSampleId()));
 
-        sample.setJobNo(NumberGeneratorUtil.generateJobNumber(sample.getSampleId()));
+        sample.setJobNo(
+                NumberGeneratorUtil.generateJobNumber(
+                        sample.getSampleId()));
 
         sample = sampleRepository.save(sample);
 
-        SampleStatusHistory history =
-                SampleStatusHistory.builder()
-                        .sample(sample)
-                        .oldStatus(null)
-                        .newStatus(SampleStatus.REGISTERED.name())
-                        .changedBy(dto.getCreatedBy())
-                        .changedDate(LocalDateTime.now())
-                        .remarks("Sample Registered")
-                        .build();
+        SampleStatusHistory history = SampleStatusHistory.builder()
+                .sample(sample)
+                .oldStatus(null)
+                .newStatus(SampleStatus.REGISTERED.name())
+                .changedBy(dto.getCreatedBy())
+                .remarks("Sample Registered")
+                .changedDate(LocalDateTime.now())
+                .build();
 
         historyRepository.save(history);
 
@@ -89,9 +89,9 @@ public class SampleRegistrationServiceImpl implements SampleRegistrationService 
     @Override
     public SampleRegistrationDTO getSample(Long sampleId) {
 
-        SampleRegistration sample =
-                sampleRepository.findById(sampleId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Sample not found"));
+        SampleRegistration sample = sampleRepository.findById(sampleId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Sample not found"));
 
         return convertToDTO(sample);
     }
@@ -102,15 +102,17 @@ public class SampleRegistrationServiceImpl implements SampleRegistrationService 
         return sampleRepository.findAll()
                 .stream()
                 .map(this::convertToDTO)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
-    public SampleRegistrationDTO updateSample(Long sampleId, SampleRegistrationDTO dto) {
+    public SampleRegistrationDTO updateSample(
+            Long sampleId,
+            SampleRegistrationDTO dto) {
 
-        SampleRegistration sample =
-                sampleRepository.findById(sampleId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Sample not found"));
+        SampleRegistration sample = sampleRepository.findById(sampleId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Sample not found"));
 
         sample.setSampleName(dto.getSampleName());
         sample.setSampleDescription(dto.getSampleDescription());
@@ -121,6 +123,11 @@ public class SampleRegistrationServiceImpl implements SampleRegistrationService 
         sample.setLotNo(dto.getLotNo());
         sample.setReceivedDate(dto.getReceivedDate());
         sample.setReceivedBy(dto.getReceivedBy());
+        sample.setCollectedDate(dto.getCollectedDate());
+        sample.setCollectedBy(dto.getCollectedBy());
+        sample.setQuantity(dto.getQuantity());
+        sample.setQuantityUnit(dto.getQuantityUnit());
+        sample.setConditionOnReceipt(dto.getConditionOnReceipt());
         sample.setPriority(dto.getPriority());
         sample.setRemarks(dto.getRemarks());
 
@@ -135,14 +142,15 @@ public class SampleRegistrationServiceImpl implements SampleRegistrationService 
     @Override
     public void deleteSample(Long sampleId) {
 
-        SampleRegistration sample =
-                sampleRepository.findById(sampleId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Sample not found"));
+        SampleRegistration sample = sampleRepository.findById(sampleId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Sample not found"));
 
         sampleRepository.delete(sample);
     }
 
-    private SampleRegistrationDTO convertToDTO(SampleRegistration sample) {
+    private SampleRegistrationDTO convertToDTO(
+            SampleRegistration sample) {
 
         SampleRegistrationDTO dto = new SampleRegistrationDTO();
 
@@ -150,31 +158,41 @@ public class SampleRegistrationServiceImpl implements SampleRegistrationService 
         dto.setSampleNo(sample.getSampleNo());
         dto.setJobNo(sample.getJobNo());
 
-        dto.setCustomerId(sample.getCustomer().getCustomerId());
+        if (sample.getCustomer() != null) {
+            dto.setCustomerId(
+                    sample.getCustomer().getCustomerId());
+        }
 
         dto.setSampleName(sample.getSampleName());
         dto.setSampleDescription(sample.getSampleDescription());
-
         dto.setSampleType(sample.getSampleType());
         dto.setSampleCategory(sample.getSampleCategory());
-
         dto.setSamplingPoint(sample.getSamplingPoint());
-
         dto.setBatchNo(sample.getBatchNo());
         dto.setLotNo(sample.getLotNo());
 
         dto.setReceivedDate(sample.getReceivedDate());
-
         dto.setReceivedBy(sample.getReceivedBy());
 
-        dto.setPriority(sample.getPriority());
+        dto.setCollectedDate(sample.getCollectedDate());
+        dto.setCollectedBy(sample.getCollectedBy());
 
+        dto.setQuantity(sample.getQuantity());
+        dto.setQuantityUnit(sample.getQuantityUnit());
+
+        dto.setConditionOnReceipt(
+                sample.getConditionOnReceipt());
+
+        dto.setPriority(sample.getPriority());
         dto.setStatus(sample.getStatus());
 
         dto.setRemarks(sample.getRemarks());
 
         dto.setCreatedBy(sample.getCreatedBy());
         dto.setCreatedDate(sample.getCreatedDate());
+
+        dto.setModifiedBy(sample.getModifiedBy());
+        dto.setModifiedDate(sample.getModifiedDate());
 
         return dto;
     }
